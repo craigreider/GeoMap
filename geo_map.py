@@ -23,7 +23,7 @@ data["Latitude"], data["Longitude"] = zip(*data.apply(geocode_address, axis=1))
 map_center = [data["Latitude"].mean(), data["Longitude"].mean()]
 
 # make map with folium
-mymap = folium.Map(location=map_center, zoom_start=4)  # adjust as needed
+mymap = folium.Map(location=map_center, zoom_start=7)  # adjust as needed
 
 # Add markers
 for index, row in data.iterrows():
