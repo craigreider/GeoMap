@@ -1,6 +1,7 @@
 import pandas as pd
 from geopy.geocoders import Nominatim
 import folium
+import json
 
 # Load dataset
 data = pd.read_excel("data.xlsx")
@@ -32,6 +33,24 @@ for index, row in data.iterrows():
             mymap
         )
 
+# Load GeoJSON data for the state (replace 'state_geojson.json' with your file)
+with open("california_counties.geojson", "r") as f:
+    state_geojson = json.load(f)
+
+# Add the GeoJSON layer to highlight the state
+folium.GeoJson(
+    state_geojson,
+    name="California",
+    style_function=lambda x: {
+        "fillColor": "blue",
+        "color": "black",
+        "weight": 1,
+        "fillOpacity": 0.05,
+    },
+).add_to(mymap)
+
+# Add a layer control and display the map
+folium.LayerControl().add_to(mymap)
 # Save
 
 mymap.save("geocoded_map.html")
