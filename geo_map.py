@@ -7,7 +7,7 @@ import json
 data = pd.read_excel("data.xlsx")
 
 # geolocator = Nominatim(user_agent="craigreider@yahoo.com")
-geolocator = Nominatim(user_agent="distance_calculator", timeout=10)
+geolocator = Nominatim(user_agent="distance_calculator(geo-map craigreider@yahoo.com)", timeout=10)
 
 
 def geocode_address(row):
