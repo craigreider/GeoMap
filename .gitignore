@@ -2,3 +2,4 @@
 *.save
 *.html
 /old/
+.vscode/settings.json
