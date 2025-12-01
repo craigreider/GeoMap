@@ -2,6 +2,7 @@ import pandas as pd
 from geopy.geocoders import Nominatim
 import folium
 import json
+import web_browser_wrapper
 
 # Load dataset
 data = pd.read_excel("data.xlsx")
@@ -55,4 +56,7 @@ folium.GeoJson(
 folium.LayerControl().add_to(mymap)
 # Save
 
-mymap.save("geocoded_map.html")
+geocoded_map="geocoded_map.html"
+mymap.save(geocoded_map)
+# Example usage: Replace 'your_file.pdf' or 'your_file.html' with your actual file name
+web_browser_wrapper.open_file_in_edge(f'file:///C:/Code/GeoMap/{geocoded_map}') 
