@@ -2,6 +2,7 @@ import pandas as pd
 from geopy.geocoders import Nominatim
 import folium
 import json
+import web_browser_wrapper
 
 # Load dataset
 data = pd.read_excel("data.xlsx")
@@ -39,7 +40,9 @@ mymap = folium.Map(location=map_center, zoom_start=7)  # adjust as needed
 # Add markers
 for index, row in data.iterrows():
     if row["Latitude"] and row["Longitude"]:
-        folium.Marker([row["Latitude"], row["Longitude"]], popup=row["City"]).add_to(
+        popup_text=f"{row["City"]}<br>Population: {row["City"]}"
+        #popup_text=f"{row["City"]}"
+        folium.Marker([row["Latitude"], row["Longitude"]], popup=popup_text).add_to(
             mymap
         )
 
@@ -63,4 +66,7 @@ folium.GeoJson(
 folium.LayerControl().add_to(mymap)
 # Save
 
-mymap.save("geocoded_map.html")
+geocoded_map="geocoded_map.html"
+mymap.save(geocoded_map)
+# Example usage: Replace 'your_file.pdf' or 'your_file.html' with your actual file name
+web_browser_wrapper.open_file_in_edge(f'file:///C:/Code/GeoMap/{geocoded_map}') 
