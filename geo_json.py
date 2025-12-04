@@ -1,4 +1,5 @@
 import sys
+
 print(sys.prefix)
 import folium
 import json
@@ -36,8 +37,8 @@ m.save("single_state_map.html")
 geo_data = "https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/subwaystations.geojson"
 
 # Create a map
-m = folium.Map(location=[40, -95], zoom_start=4,tiles="cartodb positron")
-#m = folium.Map(location=[40, -95], zoom_start=4,tiles="dark_all")
+m = folium.Map(location=[40, -95], zoom_start=4, tiles="cartodb positron")
+# m = folium.Map(location=[40, -95], zoom_start=4,tiles="dark_all")
 
 # Add GeoJSON layer
 folium.GeoJson(geo_data).add_to(m)
