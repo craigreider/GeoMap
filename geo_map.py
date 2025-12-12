@@ -3,21 +3,18 @@ from geopy.geocoders import Nominatim
 import folium
 import json
 import web_browser_wrapper
+from pathlib import Path
 
 # output html folder
-print("before: html_folder")
-
-html_folder = "C:/Code/GeoMap/html/"
-html_file_prefix = "file:///"
+html_folder = Path("C:/Code/GeoMap/html")
+html_file = html_folder / "geocoded_map.html"
+# Build file:// URL automatically
+file_url = html_file.as_uri()
 # Load dataset
 data = pd.read_excel("data.xlsx")
-
-# geolocator = Nominatim(user_agent="craigreider@yahoo.com")
 geolocator = Nominatim(
     user_agent="distance_calculator(geo-map craigreider@yahoo.com)", timeout=10
 )
-
-print("after: geolocator")
 
 
 def geocode_address(row):  # -> tuple | tuple[None, None]:
@@ -45,7 +42,6 @@ map_center = [data["Latitude"].mean(), data["Longitude"].mean()]
 mymap = folium.Map(location=map_center, zoom_start=7)  # adjust as needed
 
 # Add markers
-print("before: add markers")
 for index, row in data.iterrows():
     if row["Latitude"] and row["Longitude"]:
         popup_text = f"{row['City']}<br>Population: {row['City']}"
@@ -72,15 +68,6 @@ folium.GeoJson(
 
 # Add a layer control and display the map
 folium.LayerControl().add_to(mymap)
-# Save
-
-geocoded_map = "geocoded_map.html"
-# mymap.save(geocoded_map)
-print("before: save")
-mymap.save(f"{html_folder}{geocoded_map}")
-# Example usage: Replace 'your_file.pdf' or 'your_file.html' with your actual file name
-# web_browser_wrapper.open_file_in_edge(f"file:///C:/Code/GeoMap/{geocoded_map}", 1)
-print("before: open_file_in_edge")
-web_browser_wrapper.open_file_in_edge(
-    f"{html_file_prefix}{html_folder}{geocoded_map}", 1
-)
+# Save Folium map
+mymap.save(html_file)
+web_browser_wrapper.open_file_in_edge(file_url, 1)
