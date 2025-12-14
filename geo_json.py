@@ -1,10 +1,9 @@
 import sys
-
-print(sys.prefix)
 import folium
 import json
 import pandas as pd
 
+print(f"sys.prefix: {sys.prefix}")
 # Coordinates for centering the map (example: California)
 latitude, longitude = 36.7783, -119.4179
 
