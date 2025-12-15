@@ -7,7 +7,12 @@ from pathlib import Path
 import logging
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="./log/geomap.log", level=logging.INFO)
+logging.basicConfig(
+    filename="./log/geomap.log",
+    level=logging.INFO,
+    format="%(asctime)s.%(msecs)03d %(levelname)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 # output html folder
 logger.info("Started: html file")
 html_folder = Path("C:/Code/GeoMap/html")
@@ -33,7 +38,9 @@ def geocode_address(row):  # -> tuple | tuple[None, None]:
     """
     location = geolocator.geocode(f"{row['City']}, {row['State']}, {row['Country']}")
     if location:
-        logger.info(f"lat{location.latitude}: lon: {location.longitude}")
+        logger.info(
+            f"city: {row['City']} lat{location.latitude}: lon: {location.longitude}"
+        )
         return location.latitude, location.longitude
     else:
         return None, None
