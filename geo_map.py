@@ -7,14 +7,14 @@ from pathlib import Path
 import logging
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="geomap.log", level=logging.INFO)
+logging.basicConfig(filename="./log/geomap.log", level=logging.INFO)
 # output html folder
-logger.info("Started")
+logger.info("Started: html file")
 html_folder = Path("C:/Code/GeoMap/html")
 html_file = html_folder / "geocoded_map.html"
 # Build file:// URL automatically
 file_url = html_file.as_uri()
-logger.info("Finished")
+logger.info("Finished: html file")
 # Load dataset
 data = pd.read_excel("data.xlsx")
 geolocator = Nominatim(
@@ -33,6 +33,7 @@ def geocode_address(row):  # -> tuple | tuple[None, None]:
     """
     location = geolocator.geocode(f"{row['City']}, {row['State']}, {row['Country']}")
     if location:
+        logger.info(f"lat{location.latitude}: lon: {location.longitude}")
         return location.latitude, location.longitude
     else:
         return None, None
