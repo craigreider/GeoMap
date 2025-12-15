@@ -4,12 +4,17 @@ import folium
 import json
 import web_browser_wrapper
 from pathlib import Path
+import logging
 
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename="geomap.log", level=logging.INFO)
 # output html folder
+logger.info("Started")
 html_folder = Path("C:/Code/GeoMap/html")
 html_file = html_folder / "geocoded_map.html"
 # Build file:// URL automatically
 file_url = html_file.as_uri()
+logger.info("Finished")
 # Load dataset
 data = pd.read_excel("data.xlsx")
 geolocator = Nominatim(
