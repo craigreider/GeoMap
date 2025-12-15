@@ -4,3 +4,4 @@
 /old/
 .vscode/settings.json
 __pycache__/web_browser_wrapper.cpython-312.pyc
+geomap.log
