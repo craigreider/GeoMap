@@ -12,6 +12,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s.%(msecs)03d %(levelname)s: %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
+    filemode="w",
 )
 # output html folder
 logger.info("Started: html file")
@@ -39,7 +40,7 @@ def geocode_address(row):  # -> tuple | tuple[None, None]:
     location = geolocator.geocode(f"{row['City']}, {row['State']}, {row['Country']}")
     if location:
         logger.info(
-            f"city: {row['City']} lat{location.latitude}: lon: {location.longitude}"
+            f"city: {row['City']:<15}\tlat: {location.latitude:.5f}: lon: {location.longitude:.5f}"
         )
         return location.latitude, location.longitude
     else:
@@ -52,13 +53,12 @@ data["Latitude"], data["Longitude"] = zip(*data.apply(geocode_address, axis=1))
 map_center = [data["Latitude"].mean(), data["Longitude"].mean()]
 
 # make map with folium
-mymap = folium.Map(location=map_center, zoom_start=7)  # adjust as needed
+mymap = folium.Map(location=map_center, zoom_start=8)  # adjust as needed
 
 # Add markers
 for index, row in data.iterrows():
     if row["Latitude"] and row["Longitude"]:
         popup_text = f"{row['City']}<br>Population: {row['City']}"
-        # popup_text=f"{row["City"]}"
         folium.Marker([row["Latitude"], row["Longitude"]], popup=popup_text).add_to(
             mymap
         )
@@ -83,4 +83,6 @@ folium.GeoJson(
 folium.LayerControl().add_to(mymap)
 # Save Folium map
 mymap.save(html_file)
+logger.info("End: Save")
 web_browser_wrapper.open_file_in_edge(file_url, 1)
+logger.info("End: Browser")
